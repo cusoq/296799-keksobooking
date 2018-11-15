@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Dmitry Pukach](https://up.htmlacademy.ru/javascript/16/user/296799).
-* Наставник: `Неизвестно`.
+* Наставник: `Отсутствует`.
 
 ---
 
