@@ -100,10 +100,12 @@
   // что происходит при отправке данных:
   var onSubmit = function (event) {
     event.preventDefault();
+    window.backend.save(new FormData(window.util.adForm), function () {
+      window.util.closePopup(window.util.presentCard);
+    });
     window.pins.insertFragmentSuccess();
     window.util.setElementsDisabled(window.util.adFormFieldsets);
     window.util.adForm.reset();
-    window.util.closePopup(window.util.presentCard);
     window.util.mapPins.forEach(function (item) {
       if (!item.classList.contains('map__pin--main')) {
         item.remove();
@@ -113,6 +115,15 @@
     window.util.map.classList.add('map--faded');
     window.util.adForm.classList.add('ad-form--disabled');
     mapPinMain.addEventListener('mousedown', onMainPinMousedown);
+  };
+
+  var onErrorSave = function (event) {
+    event.preventDefault();
+    // window.backend.save(new FormData(window.util.adForm), function () {
+    //   window.util.closePopup(window.util.presentCard);
+    // });
+    window.util.closePopup(window.util.presentCard);
+    window.pins.insertFragmentError();
   };
   // действия при клике на ресет:
   var onClickReset = function () {
@@ -131,8 +142,8 @@
   };
 
   // ОБРАБОТЧИКИ:
-  // обработчик события успешной отправки формы:
-  window.util.adForm.addEventListener('submit', onSubmit);
+  // обработчик события отправки формы:
+  window.util.adForm.addEventListener('submit', onSubmit, onErrorSave);
   // обработчик перетаскивания гланого пина:
   mapPinMain.addEventListener('mousedown', onMainPinDrag);
   // ообработчик нажатия сброса:

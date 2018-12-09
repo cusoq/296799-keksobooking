@@ -24,6 +24,7 @@
   var mapPins;
   var presentCard;
   var successWindow;
+  var errorWindow;
 
   // закрывает попап:
   var closePopup = function (popup) {
@@ -66,6 +67,7 @@
     presentCard: presentCard,
     adFormFieldsets: adFormFieldsets,
     successWindow: successWindow,
+    errorWindow: errorWindow,
     closePopup: closePopup,
     setElementsDisabled: setElementsDisabled,
     setElementsEnabled: setElementsEnabled,

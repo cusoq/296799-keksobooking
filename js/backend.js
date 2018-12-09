@@ -2,7 +2,7 @@
 
 (function () {
   var URL_DATA = 'https://js.dump.academy/keksobooking/data';
-  var URL_ONLOAD = 'https://js.dump.academy/keksobooking';
+  var URL_ONLOAD = 'https://js.dump.academy/keksobookingq';
   // Загрузка данных с сетевого ресурса
   var load = function (onDataLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -28,7 +28,7 @@
     xhr.send();
   };
   // Отпрвка данных формы на сервер
-  var save = function (data, onLoad, onError) {
+  var save = function (formData, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
@@ -40,7 +40,7 @@
     });
 
     xhr.open('POST', URL_ONLOAD);
-    xhr.send(data);
+    xhr.send(formData);
   };
 
   window.backend = {

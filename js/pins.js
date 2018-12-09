@@ -5,6 +5,7 @@
   var card = document.querySelector('#card').content.querySelector('.map__card');
   var pin = document.querySelector('#pin').content.querySelector('.map__pin');
   var success = document.querySelector('#success').content.querySelector('.success');
+  var error = document.querySelector('#error').content.querySelector('.error');
   var mapFilters = document.querySelector('.map__filters-container');
   var mapPinContainer = document.querySelector('.map__pins');
   var photosListItem = document.querySelector('#card').content.querySelector('.popup__photo');
@@ -60,6 +61,13 @@
     fragment.appendChild(renderSuccess());
     return fragment;
   };
+  // создание фрагмента с сообщением о неуспешнлй отправке формы:
+  var getErrorFragment = function () {
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild(renderSuccess());
+    return fragment;
+  };
+
   //  формируем список опций:
   var showFeatures = function (cardElement, currentCard) {
     var featureItems = cardElement.querySelectorAll('.popup__feature');
@@ -113,6 +121,13 @@
     document.addEventListener('click', onClickClose);
     return success.cloneNode(true);
   };
+  // формируем DOM элемент сообщения об ошибке отправки формы:
+  var renderError = function () {
+    document.addEventListener('keydown', onEscClose);
+    document.addEventListener('click', onClickClose);
+    return error.cloneNode(true);
+  };
+
   // добавляем метку в разметку:
   var insertFragmentPin = function () {
     mapPinContainer.appendChild(getPinFragment(window.data.cards, renderPins));
@@ -127,6 +142,11 @@
   var insertFragmentSuccess = function () {
     document.querySelector('main').appendChild(getSuccessFragment(renderSuccess));
     window.util.successWindow = document.querySelector('.success');
+  };
+  // добавляем сообщениe об ошибке отправки формы в разметку:
+  var insertFragmentError = function () {
+    document.querySelector('main').appendChild(getErrorFragment(renderError));
+    window.util.errorWindow = document.querySelector('.error');
   };
 
   // что происходит при нажатии Esc:
@@ -146,6 +166,7 @@
   };
   window.pins = {
     insertFragmentPin: insertFragmentPin,
-    insertFragmentSuccess: insertFragmentSuccess
+    insertFragmentSuccess: insertFragmentSuccess,
+    insertFragmentError: insertFragmentError
   };
 })();
