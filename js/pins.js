@@ -64,7 +64,7 @@
   // создание фрагмента с сообщением о неуспешнлй отправке формы:
   var getErrorFragment = function () {
     var fragment = document.createDocumentFragment();
-    fragment.appendChild(renderSuccess());
+    fragment.appendChild(renderError());
     return fragment;
   };
 
@@ -154,6 +154,7 @@
     if (event.keyCode === ESC_KEYCODE) {
       window.util.closePopup(window.util.presentCard);
       window.util.closePopup(window.util.successWindow);
+      window.util.closePopup(window.util.errorWindow);
       document.removeEventListener('keydown', onEscClose);
     }
   };
@@ -161,6 +162,7 @@
   // что происходит при клике на сообщении об успехе:
   var onClickClose = function () {
     window.util.closePopup(window.util.successWindow);
+    window.util.closePopup(window.util.errorWindow);
     window.util.setElementsEnabled(window.util.adFormFieldsets);
     document.removeEventListener('click', onClickClose);
   };

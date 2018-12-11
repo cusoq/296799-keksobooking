@@ -25,7 +25,6 @@
   var presentCard;
   var successWindow;
   var errorWindow;
-
   // закрывает попап:
   var closePopup = function (popup) {
     if (popup) {
