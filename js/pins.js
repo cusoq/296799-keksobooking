@@ -31,14 +31,6 @@
   var getCheckTime = function (currentCard) {
     return 'Заезд после ' + currentCard.offer.checkin + ', выезд до ' + currentCard.offer.checkout;
   };
-  // создание фрагмента для добавления пина в разметку:
-  var getPinFragment = function (array, createdomfunction) {
-    var fragment = document.createDocumentFragment();
-    for (var j = 0; j < array.length; j++) {
-      fragment.appendChild(createdomfunction(array[j]));
-    }
-    return fragment;
-  };
   // создание фрагмента для добавления карточки в разметку:
   var getCardFragment = function (currentCard, createdomfunction) {
     var fragment = document.createDocumentFragment();
@@ -128,11 +120,30 @@
     return error.cloneNode(true);
   };
 
+  var onDataLoad = function (response) {
+    window.data.cards = response;
+  };
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.classList.add('error');
+    node.textContent = errorMessage;
+    // node.style.opacity = 0;
+    document.body.appendChild(node);
+  };
+  // создание фрагмента для добавления пина в разметку:
+  var getPinFragment = function (array, createdomfunction) {
+    var fragment = document.createDocumentFragment();
+    for (var j = 0; j < array.length; j++) {
+      fragment.appendChild(createdomfunction(array[j]));
+    }
+    return fragment;
+  };
   // добавляем метку в разметку:
   var insertFragmentPin = function () {
     mapPinContainer.appendChild(getPinFragment(window.data.cards, renderPins));
     window.util.mapPins = document.querySelectorAll('.map__pin');
   };
+  window.backend.load(onDataLoad, onError);
   // добавляем карточку в разметку:
   var insertFragmentCard = function (currentCard) {
     window.util.map.insertBefore(getCardFragment(currentCard, renderCard), mapFilters);
