@@ -124,11 +124,8 @@
     window.data.cards = response;
   };
   var onError = function (errorMessage) {
-    var node = document.createElement('div');
-    node.classList.add('error');
-    node.textContent = errorMessage;
-    // node.style.opacity = 0;
-    document.body.appendChild(node);
+    window.pins.insertFragmentError();
+    document.querySelector('.error__message').textContent = errorMessage;
   };
   // создание фрагмента для добавления пина в разметку:
   var getPinFragment = function (array, createdomfunction) {

@@ -7,7 +7,7 @@ window.backend = (function () {
   var checkError = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    xhr.timeout = 1;
+    xhr.timeout = 1500;
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
@@ -28,6 +28,7 @@ window.backend = (function () {
     return xhr;
   };
 
+  // Загружаем объявления по сети
   var load = function (onLoad, onError) {
     var xhr = checkError(onLoad, onError);
 
@@ -35,8 +36,7 @@ window.backend = (function () {
     xhr.send();
   };
 
-  // ///////////////////////////////////////////////////// //
-
+  // Отправляем данные формы на сервер
   var save = function (data, onLoad, onError) {
     var xhr = checkError(onLoad, onError);
 
