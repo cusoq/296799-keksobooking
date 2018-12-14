@@ -29,6 +29,31 @@
   var onChangeCheckOutSync = function () {
     timeOutInput.value = timeInInput.value;
   };
+  // что происходит при отправке данных:
+  // в случае исключения
+  var onErrorSave = function () {
+    window.pins.insertFragmentError();
+  };
+  // в штатном режиме
+  var onSubmit = function (event) {
+    event.preventDefault();
+    window.backend.save(new FormData(window.util.adForm), function () {
+      window.util.closePopup(window.util.presentCard);
+      window.pins.insertFragmentSuccess();
+      window.util.setElementsDisabled(window.util.adFormFieldsets);
+      window.util.adForm.reset();
+      window.util.mapPins.forEach(function (item) {
+        if (!item.classList.contains('map__pin--main')) {
+          item.remove();
+        }
+      });
+      window.map.fillAddress();
+      window.util.map.classList.add('map--faded');
+      window.util.adForm.classList.add('ad-form--disabled');
+      window.map.mapPinMain.addEventListener('mousedown', window.map.onMainPinMousedown);
+    }, onErrorSave);
+  };
+
   // ОБРАБОТЧИКИ:
 
   // обработчик синхронизации цены и типа жилья:
@@ -38,6 +63,9 @@
   // обработчики синхронизации времени въезда-выезда:
   timeInInput.addEventListener('change', onChangeCheckOutSync);
   timeOutInput.addEventListener('change', onChangeCheckInSync);
+  // обработчик события отправки формы:
+  window.util.adForm.addEventListener('submit', onSubmit, onErrorSave);
+
   // валидация форм:
   titleInput.addEventListener('input', function () {
     if (titleInput.validity.tooShort) {
@@ -70,4 +98,8 @@
       window.util.priceInput.classList.remove('invalid');
     }
   });
+
+  // все поля форм по умолчанию неактивны:
+  window.util.setElementsDisabled(window.util.adFormFieldsets);
+  window.util.setElementsDisabled(window.util.mapFilterItems);
 })();
