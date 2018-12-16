@@ -7,7 +7,7 @@ window.backend = (function () {
   var checkError = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    xhr.timeout = 1500;
+    xhr.timeout = 1500; // ms
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {

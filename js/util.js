@@ -20,7 +20,7 @@
   var capacityInputOptions = capacityInput.querySelectorAll('option');
   var map = document.querySelector('.map');
   var adFormFieldsets = adForm.querySelectorAll('.ad-form__element');
-  var mapFilterItems = document.querySelectorAll('.map__filter');
+  // var mapFilterItems = document.querySelectorAll('.map__filter');
   var mapPins;
   var presentCard;
   var successWindow;
@@ -61,7 +61,7 @@
     capacityInput: capacityInput,
     capacityInputOptions: capacityInputOptions,
     map: map,
-    mapFilterItems: mapFilterItems,
+    // mapFilterItems: mapFilterItems,
     mapPins: mapPins,
     presentCard: presentCard,
     adFormFieldsets: adFormFieldsets,
