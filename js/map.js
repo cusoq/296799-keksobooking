@@ -97,19 +97,31 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   };
+  // Удаляет пины с карты
+  var removePins = function () {
+    // window.util.mapPins.forEach(function (item) {
+    //   if (!item.classList.contains('map__pin--main')) {
+    //     item.remove();
+    //   }
+    // });
+    var mapPinsItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var m = 0; m < mapPinsItems.length; m++) {
+      mapPinsItems[m].remove();
+    }
+  };
+  // Удаляет объявление с карты
+  var removeMapCard = function () {
+    window.util.closePopup(window.util.presentCard);
+  };
 
   // действия при клике на ресет:
   var onClickReset = function () {
     event.preventDefault();
-    window.util.closePopup(window.util.presentCard);
+    removeMapCard();
     mapPinMain.style.top = START_Y + 'px';
     mapPinMain.style.left = START_X + 'px';
     fillAddress();
-    window.util.mapPins.forEach(function (item) {
-      if (!item.classList.contains('map__pin--main')) {
-        item.remove();
-      }
-    });
+    removePins();
     window.util.map.classList.add('map--faded');
     mapPinMain.addEventListener('mousedown', onMainPinMousedown);
   };
@@ -125,6 +137,8 @@
 
   window.map = {
     mapPinMain: mapPinMain,
+    removePins: removePins,
+    removeMapCard: removeMapCard,
     fillAddress: fillAddress,
     onMainPinMousedown: onMainPinMousedown
   };

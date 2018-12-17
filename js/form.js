@@ -42,6 +42,7 @@
       window.pins.insertFragmentSuccess();
       window.util.setElementsDisabled(window.util.adFormFieldsets);
       window.util.adForm.reset();
+      window.filter.deactivate();
       window.util.mapPins.forEach(function (item) {
         if (!item.classList.contains('map__pin--main')) {
           item.remove();
@@ -102,4 +103,6 @@
   // все поля форм по умолчанию неактивны:
   window.util.setElementsDisabled(window.util.adFormFieldsets);
   window.util.setElementsDisabled(window.util.mapFilterItems);
+  // фильтры по умолчанию сброшены
+  window.filter.deactivate();
 })();

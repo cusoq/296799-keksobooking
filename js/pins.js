@@ -121,9 +121,8 @@
   };
 
   var onDataLoad = function (response) {
+    window.filter.activate();
     window.data.cards = response;
-    window.filter.filtered = response;
-    window.filter.updatePins(window.data.cards);
   };
   var onError = function (errorMessage) {
     window.pins.insertFragmentError();
@@ -132,7 +131,7 @@
   // создание фрагмента для добавления пина в разметку:
   var getPinFragment = function (array, createdomfunction) {
     var fragment = document.createDocumentFragment();
-    for (var j = 0; j < 5; j++) {
+    for (var j = 0; j < array.length; j++) {
       fragment.appendChild(createdomfunction(array[j]));
     }
     return fragment;
@@ -177,6 +176,7 @@
     document.removeEventListener('click', onClickClose);
   };
   window.pins = {
+    getPinFragment: getPinFragment,
     insertFragmentPin: insertFragmentPin,
     insertFragmentSuccess: insertFragmentSuccess,
     insertFragmentError: insertFragmentError
