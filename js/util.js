@@ -12,7 +12,7 @@
     '3': ['1', '2', '3'],
     '100': ['0']
   };
-  var DEBOUNCE_INTERVAL = 300;
+  var DEBOUNCE_INT = 300; // ms
 
   var priceInput = document.getElementById('price');
   var roomNumberInput = document.getElementById('room_number');
@@ -62,7 +62,7 @@
       }
       lastTimeout = window.setTimeout(function () {
         fun.apply(null, args);
-      }, DEBOUNCE_INTERVAL);
+      }, DEBOUNCE_INT);
     };
   };
 

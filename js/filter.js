@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var PINS_LIMIT = 5;
+  var PINS_NUMBER = 5;
 
   var PriceRange = {
     LOW: {
@@ -57,11 +57,13 @@
   };
 
   var onFilterChange = window.util.debounce(function () {
+    window.map.removePins();
+    // window.map.removeMapCard();
     filteredData = data.slice(0);
     filteredData = filteredData.filter(filtrationByType).filter(filtrationByPrice).filter(filtrationByRooms).filter(filtrationByGuests).filter(filtrationByFeatures);
-    window.map.removePins();
-    window.map.removeMapCard();
-    window.map.renderPinsMarkup(filteredData.slice(0, PINS_LIMIT));
+
+    console.log(filteredData);
+    // window.pins.insertFragmentPin(filteredData.slice(0, PINS_NUMBER));
   });
 
   var activateFilter = function () {
@@ -90,18 +92,18 @@
     filter.removeEventListener('change', onFilterChange);
   };
 
-  var activateFiltration = function (response) {
+  var activateFilters = function (response) {
     data = response.slice(0);
     activateFilter();
-    return response.slice(0, PINS_LIMIT);
+    return response.slice(0, PINS_NUMBER);
   };
 
-  var deactivateFiltration = function () {
+  var deactivateFilters = function () {
     deactivateFilter();
   };
 
   window.filter = {
-    activate: activateFiltration,
-    deactivate: deactivateFiltration
+    activate: activateFilters,
+    deactivate: deactivateFilters
   };
 })();

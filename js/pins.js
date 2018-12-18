@@ -121,8 +121,7 @@
   };
 
   var onDataLoad = function (response) {
-    window.filter.activate();
-    window.data.cards = response;
+    window.data.cards = window.filter.activate(response);
   };
   var onError = function (errorMessage) {
     window.pins.insertFragmentError();

@@ -122,6 +122,7 @@
     mapPinMain.style.left = START_X + 'px';
     fillAddress();
     removePins();
+    window.filter.deactivate();
     window.util.map.classList.add('map--faded');
     mapPinMain.addEventListener('mousedown', onMainPinMousedown);
   };
