@@ -12,6 +12,7 @@
     '3': ['1', '2', '3'],
     '100': ['0']
   };
+  var DEBOUNCE_INTERVAL = 300;
 
   var priceInput = document.getElementById('price');
   var roomNumberInput = document.getElementById('room_number');
@@ -51,6 +52,20 @@
       return Math.random() - 0.5;
     });
   };
+
+  var debounce = function (fun) {
+    var lastTimeout = null;
+    return function () {
+      var args = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        fun.apply(null, args);
+      }, DEBOUNCE_INTERVAL);
+    };
+  };
+
   window.util = {
     PRICE: PRICE,
     CAPACITY: CAPACITY,
@@ -70,6 +85,7 @@
     closePopup: closePopup,
     setElementsDisabled: setElementsDisabled,
     setElementsEnabled: setElementsEnabled,
-    shuffle: shuffle
+    shuffle: shuffle,
+    debounce: debounce
   };
 })();

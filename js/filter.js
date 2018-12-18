@@ -56,13 +56,13 @@
     });
   };
 
-  var onFilterChange = function () {
+  var onFilterChange = window.util.debounce(function () {
     filteredData = data.slice(0);
     filteredData = filteredData.filter(filtrationByType).filter(filtrationByPrice).filter(filtrationByRooms).filter(filtrationByGuests).filter(filtrationByFeatures);
-    window.map.removeMapCard();
     window.map.removePins();
-    window.pins.getPinFragment(filteredData.slice(0, PINS_LIMIT));
-  };
+    window.map.removeMapCard();
+    window.map.renderPinsMarkup(filteredData.slice(0, PINS_LIMIT));
+  });
 
   var activateFilter = function () {
     filterItems.forEach(function (it) {
