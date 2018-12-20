@@ -55,43 +55,43 @@
       return item.offer.features.includes(element.value);
     });
   };
-
   var onFilterChange = window.util.debounce(function () {
+    filteredData = data.slice(0);
+    // console.log(filteredData);
+    // filteredData = filteredData.filter(filtrationByType);
+    // filteredData = filteredData.filter(filtrationByPrice);
+    // filteredData = filteredData.filter(filtrationByRooms);
+    // filteredData = filteredData.filter(filtrationByGuests);
+    // filteredData = filteredData.filter(filtrationByFeatures);
+    filteredData = filteredData.filter(filtrationByType).filter(filtrationByPrice).filter(filtrationByRooms).filter(filtrationByGuests).filter(filtrationByFeatures);
     window.map.removePins();
     window.map.removeMapCard();
-    filteredData = data.slice(0);
-    filteredData = filteredData.filter(filtrationByType);
-    filteredData = filteredData.filter(filtrationByPrice);
-    filteredData = filteredData.filter(filtrationByRooms);
-    filteredData = filteredData.filter(filtrationByGuests);
-    filteredData = filteredData.filter(filtrationByFeatures);
-    filteredData = filteredData.filter(filtrationByType).filter(filtrationByPrice).filter(filtrationByRooms).filter(filtrationByGuests).filter(filtrationByFeatures);
-    console.log(filteredData);
-    // data = filteredData.slice(0);
-    // window.pins.getPinFragment(filteredData.slice(0, PINS_NUMBER));
+    // console.log(filteredData);
+
     // window.pins.create(filteredData.slice(0, PINS_NUMBER));
     window.pins.getPinFragment(filteredData.slice(0, PINS_NUMBER));
     window.pins.insertFragmentPin();
-    // filter.removeEventListener('change', onFilterChange);
   });
 
+  // filter.addEventListener('change', activateFilters());
   var activateFilter = function () {
     filterItems.forEach(function (it) {
       it.disabled = false;
     });
-    // onFilterChange();
     filter.addEventListener('change', onFilterChange);
   };
-
-  var resetFilter = function () {
-    filterItems.forEach(function (it) {
-      it.value = 'any';
-    });
-    var featuresItems = featuresFieldset.querySelectorAll('input');
-    featuresItems.forEach(function (feature) {
-      feature.checked = false;
-    });
-  };
+  // var updateFilter = function () {
+  //   activateFilter();
+  // };
+  // var resetFilter = function () {
+  //   filterItems.forEach(function (it) {
+  //     it.value = 'any';
+  //   });
+  //   var featuresItems = featuresFieldset.querySelectorAll('input');
+  //   featuresItems.forEach(function (feature) {
+  //     feature.checked = false;
+  //   });
+  // };
 
   var deactivateFilter = function () {
     filterItems.forEach(function (it) {
@@ -100,22 +100,22 @@
     filter.removeEventListener('change', onFilterChange);
   };
 
+  // filter.addEventListener('change', activateFilters);
   var activateFilters = function (response) {
-    data = response.slice(0);
-    // console.log(data);
+    data = response.slice();
     activateFilter();
-    // data = filteredData.slice(0);
-    // console.log(data);
     return data.slice(0, PINS_NUMBER);
   };
 
   var deactivateFilters = function () {
     deactivateFilter();
-    resetFilter();
+    filter.reset();
+    // resetFilter();
   };
-
   window.filter = {
     activate: activateFilters,
-    deactivate: deactivateFilters
+    deactivate: deactivateFilters,
+    // updateFilter: updateFilter,
+    filter: filter
   };
 })();

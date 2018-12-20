@@ -136,7 +136,6 @@
   resetButton.addEventListener('click', onClickReset);
   // ообработчик нажатия главной метки:
   mapPinMain.addEventListener('mousedown', onMainPinMousedown);
-
   window.map = {
     mapPinMain: mapPinMain,
     removePins: removePins,

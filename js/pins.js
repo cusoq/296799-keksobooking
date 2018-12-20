@@ -121,9 +121,10 @@
   };
   var adData = window.data.cards;
   var onDataLoad = function (response) {
-    adData = response;
-    return adData;
+    // adData = response.slice(0, window.filter.PINS_NUMBER);
+    // return adData;
     // window.data.cards = response;
+    adData = window.filter.activate(response);
   };
   // console.log(adData);
   var onError = function (errorMessage) {
@@ -178,6 +179,7 @@
     window.util.setElementsEnabled(window.util.adFormFieldsets);
     document.removeEventListener('click', onClickClose);
   };
+
   window.pins = {
     getPinFragment: getPinFragment,
     insertFragmentPin: insertFragmentPin,
