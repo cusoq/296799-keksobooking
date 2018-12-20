@@ -49,6 +49,7 @@
       window.util.capacityInputOptions[t].disabled = !window.util.CAPACITY[window.util.roomNumberInput.value].includes(window.util.capacityInputOptions[t].value);
     }
     window.pins.insertFragmentPin();
+    window.filter.activate(window.pins.adData);
     mapPinMain.removeEventListener('mouseup', onMainPinMouseup);
   };
   // действия при перемещении главного пина:

@@ -119,10 +119,13 @@
     document.addEventListener('click', onClickClose);
     return error.cloneNode(true);
   };
-
+  var adData = window.data.cards;
   var onDataLoad = function (response) {
-    window.data.cards = window.filter.activate(response);
+    adData = response;
+    return adData;
+    // window.data.cards = response;
   };
+  // console.log(adData);
   var onError = function (errorMessage) {
     window.pins.insertFragmentError();
     document.querySelector('.error__message').textContent = errorMessage;
@@ -137,10 +140,11 @@
   };
   // добавляем метку в разметку:
   var insertFragmentPin = function () {
-    mapPinContainer.appendChild(getPinFragment(window.data.cards, renderPins));
+    mapPinContainer.appendChild(getPinFragment(adData, renderPins));
     window.util.mapPins = document.querySelectorAll('.map__pin');
   };
   window.backend.load(onDataLoad, onError);
+
   // добавляем карточку в разметку:
   var insertFragmentCard = function (currentCard) {
     window.util.map.insertBefore(getCardFragment(currentCard, renderCard), mapFilters);
@@ -178,6 +182,7 @@
     getPinFragment: getPinFragment,
     insertFragmentPin: insertFragmentPin,
     insertFragmentSuccess: insertFragmentSuccess,
-    insertFragmentError: insertFragmentError
+    insertFragmentError: insertFragmentError,
+    adData: adData
   };
 })();
