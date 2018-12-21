@@ -19,23 +19,25 @@
   var resetButton = document.querySelector('.ad-form__reset');
   // получение координат главного пина:
   var getMainPinPosition = function () {
-    // var position =
     return {
       x: Math.round((mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2)),
       y: Math.round((mapPinMain.offsetTop + mapPinMain.offsetHeight + PIN_POINTER_HEIGHT))
     };
   };
+
   // заполнение поля адреса главного пина:
   var fillAddress = function () {
     var location = getMainPinPosition();
     document.getElementById('address').value = location.x + ', ' + location.y;
   };
+
   // при нажатии на главную метку:
   var onMainPinMousedown = function () {
     event.preventDefault();
     mapPinMain.addEventListener('mouseup', onMainPinMouseup);
     mapPinMain.removeEventListener('mousedown', onMainPinMousedown);
   };
+
   // что происходит при отпускании главной метки: активируются карты и формы, отображается адрес в соотв. поле формы:
   var onMainPinMouseup = function () {
     event.preventDefault();
@@ -49,9 +51,9 @@
       window.util.capacityInputOptions[t].disabled = !window.util.CAPACITY[window.util.roomNumberInput.value].includes(window.util.capacityInputOptions[t].value);
     }
     window.pins.insertFragmentPin();
-    window.filter.activate(window.pins.adData);
     mapPinMain.removeEventListener('mouseup', onMainPinMouseup);
   };
+
   // действия при перемещении главного пина:
   var onMainPinDrag = function () {
     event.preventDefault();
@@ -98,18 +100,15 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   };
+
   // Удаляет пины с карты
   var removePins = function () {
-    // window.util.mapPins.forEach(function (item) {
-    //   if (!item.classList.contains('map__pin--main')) {
-    //     item.remove();
-    //   }
-    // });
     var mapPinsItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var m = 0; m < mapPinsItems.length; m++) {
       mapPinsItems[m].remove();
     }
   };
+
   // Удаляет объявление с карты
   var removeMapCard = function () {
     window.util.closePopup(window.util.presentCard);
@@ -123,7 +122,6 @@
     mapPinMain.style.left = START_X + 'px';
     fillAddress();
     removePins();
-    window.filter.deactivate();
     window.util.map.classList.add('map--faded');
     mapPinMain.addEventListener('mousedown', onMainPinMousedown);
   };

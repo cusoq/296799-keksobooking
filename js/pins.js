@@ -9,6 +9,7 @@
   var mapFilters = document.querySelector('.map__filters-container');
   var mapPinContainer = document.querySelector('.map__pins');
   var photosListItem = document.querySelector('#card').content.querySelector('.popup__photo');
+  // var adData = window.data.cards;
   // переводить на русскай языка:
   var getCapacity = function (currentCard) {
     var capacityTextRooms;
@@ -119,14 +120,15 @@
     document.addEventListener('click', onClickClose);
     return error.cloneNode(true);
   };
-  var adData = window.data.cards;
+  // var filtredOffers;
   var onDataLoad = function (response) {
-    // adData = response.slice(0, window.filter.PINS_NUMBER);
-    // return adData;
-    // window.data.cards = response;
-    adData = window.filter.activate(response);
+    window.data.cards = response.slice(0, window.filter.PINS_NUMBER);
+    window.filter.activate(window.data.cards);
+    // window.filter.bindFilters();
+    // adData = filtredOffers;
+    // adData = window.filter.activate(response);
   };
-  // console.log(adData);
+
   var onError = function (errorMessage) {
     window.pins.insertFragmentError();
     document.querySelector('.error__message').textContent = errorMessage;
@@ -141,7 +143,7 @@
   };
   // добавляем метку в разметку:
   var insertFragmentPin = function () {
-    mapPinContainer.appendChild(getPinFragment(adData, renderPins));
+    mapPinContainer.appendChild(getPinFragment(window.data.cards, renderPins));
     window.util.mapPins = document.querySelectorAll('.map__pin');
   };
   window.backend.load(onDataLoad, onError);
@@ -179,12 +181,12 @@
     window.util.setElementsEnabled(window.util.adFormFieldsets);
     document.removeEventListener('click', onClickClose);
   };
-
   window.pins = {
     getPinFragment: getPinFragment,
     insertFragmentPin: insertFragmentPin,
     insertFragmentSuccess: insertFragmentSuccess,
-    insertFragmentError: insertFragmentError,
-    adData: adData
+    insertFragmentError: insertFragmentError
+    // filtredOffers: filtredOffers,
+    // adData: adData
   };
 })();

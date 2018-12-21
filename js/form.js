@@ -104,5 +104,5 @@
   window.util.setElementsDisabled(window.util.adFormFieldsets);
   window.util.setElementsDisabled(window.util.mapFilterItems);
   // фильтры по умолчанию сброшены
-  window.filter.deactivate();
+  // window.filter.deactivate();
 })();
