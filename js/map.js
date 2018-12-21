@@ -1,9 +1,11 @@
 'use strict';
 
 (function () {
+
   var PIN_POINTER_HEIGHT = 17; // высота псевдоэлемента-указателя за вычетом толщины рамки пина, взята из разметки
   var START_X = 570; // начальные координаты главного пина
   var START_Y = 375; // начальные координаты главного пина
+
   // пределы перемещения главного пина:
   var DRAG_STOP = {
     X: {
@@ -15,8 +17,10 @@
       MAX: 630
     }
   };
+
   var mapPinMain = document.querySelector('.map__pin--main');
   var resetButton = document.querySelector('.ad-form__reset');
+
   // получение координат главного пина:
   var getMainPinPosition = function () {
     return {
@@ -117,6 +121,7 @@
   // действия при клике на ресет:
   var onClickReset = function () {
     event.preventDefault();
+    window.filter.deactivateFilters();
     removeMapCard();
     mapPinMain.style.top = START_Y + 'px';
     mapPinMain.style.left = START_X + 'px';

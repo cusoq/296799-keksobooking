@@ -42,7 +42,6 @@
       window.pins.insertFragmentSuccess();
       window.util.setElementsDisabled(window.util.adFormFieldsets);
       window.util.adForm.reset();
-      window.filter.deactivate();
       window.util.mapPins.forEach(function (item) {
         if (!item.classList.contains('map__pin--main')) {
           item.remove();
@@ -53,6 +52,7 @@
       window.util.adForm.classList.add('ad-form--disabled');
       window.map.mapPinMain.addEventListener('mousedown', window.map.onMainPinMousedown);
     }, onErrorSave);
+    window.filter.deactivateFilters();
   };
 
   // ОБРАБОТЧИКИ:
@@ -103,6 +103,4 @@
   // все поля форм по умолчанию неактивны:
   window.util.setElementsDisabled(window.util.adFormFieldsets);
   window.util.setElementsDisabled(window.util.mapFilterItems);
-  // фильтры по умолчанию сброшены
-  // window.filter.deactivate();
 })();

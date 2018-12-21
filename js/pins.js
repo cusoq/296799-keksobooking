@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   var ESC_KEYCODE = 27;
   var card = document.querySelector('#card').content.querySelector('.map__card');
   var pin = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -9,7 +10,7 @@
   var mapFilters = document.querySelector('.map__filters-container');
   var mapPinContainer = document.querySelector('.map__pins');
   var photosListItem = document.querySelector('#card').content.querySelector('.popup__photo');
-  // var adData = window.data.cards;
+
   // переводить на русскай языка:
   var getCapacity = function (currentCard) {
     var capacityTextRooms;
@@ -28,16 +29,19 @@
     }
     return capacityTextRooms + capacityTextGuests;
   };
+
   // сообщение о въезде - выезде:
   var getCheckTime = function (currentCard) {
     return 'Заезд после ' + currentCard.offer.checkin + ', выезд до ' + currentCard.offer.checkout;
   };
+
   // создание фрагмента для добавления карточки в разметку:
   var getCardFragment = function (currentCard, createdomfunction) {
     var fragment = document.createDocumentFragment();
     fragment.appendChild(createdomfunction(currentCard));
     return fragment;
   };
+
   // создание фрагмента с новым списком фоток для добавления в разметку:
   var getPhotosFragment = function (currentCard) {
     var fragment = document.createDocumentFragment();
@@ -48,12 +52,14 @@
     }
     return fragment;
   };
+
   // создание фрагмента с сообщением об успешнлй отправке формы:
   var getSuccessFragment = function () {
     var fragment = document.createDocumentFragment();
     fragment.appendChild(renderSuccess());
     return fragment;
   };
+
   // создание фрагмента с сообщением о неуспешнлй отправке формы:
   var getErrorFragment = function () {
     var fragment = document.createDocumentFragment();
@@ -72,6 +78,7 @@
       firstElement.classList.remove('visually-hidden');
     }
   };
+
   // формируем DOM элемент метки:
   var renderPins = function (currentCard) {
     var pinElement = pin.cloneNode(true);
@@ -108,31 +115,31 @@
     });
     return cardElement;
   };
+
   // формируем DOM элемент сообщения об успехе:
   var renderSuccess = function () {
     document.addEventListener('keydown', onEscClose);
     document.addEventListener('click', onClickClose);
     return success.cloneNode(true);
   };
+
   // формируем DOM элемент сообщения об ошибке отправки формы:
   var renderError = function () {
     document.addEventListener('keydown', onEscClose);
     document.addEventListener('click', onClickClose);
     return error.cloneNode(true);
   };
-  // var filtredOffers;
+
   var onDataLoad = function (response) {
     window.data.cards = response.slice(0, window.filter.PINS_NUMBER);
     window.filter.activate(window.data.cards);
-    // window.filter.bindFilters();
-    // adData = filtredOffers;
-    // adData = window.filter.activate(response);
   };
 
   var onError = function (errorMessage) {
     window.pins.insertFragmentError();
     document.querySelector('.error__message').textContent = errorMessage;
   };
+
   // создание фрагмента для добавления пина в разметку:
   var getPinFragment = function (array, createdomfunction) {
     var fragment = document.createDocumentFragment();
@@ -141,6 +148,7 @@
     }
     return fragment;
   };
+
   // добавляем метку в разметку:
   var insertFragmentPin = function () {
     mapPinContainer.appendChild(getPinFragment(window.data.cards, renderPins));
@@ -153,11 +161,13 @@
     window.util.map.insertBefore(getCardFragment(currentCard, renderCard), mapFilters);
     window.util.presentCard = document.querySelector('.map__card');
   };
+
   // добавляем сообщениe об успехе в разметку:
   var insertFragmentSuccess = function () {
     document.querySelector('main').appendChild(getSuccessFragment(renderSuccess));
     window.util.successWindow = document.querySelector('.success');
   };
+
   // добавляем сообщениe об ошибке отправки формы в разметку:
   var insertFragmentError = function () {
     document.querySelector('main').appendChild(getErrorFragment(renderError));
@@ -182,11 +192,8 @@
     document.removeEventListener('click', onClickClose);
   };
   window.pins = {
-    getPinFragment: getPinFragment,
     insertFragmentPin: insertFragmentPin,
     insertFragmentSuccess: insertFragmentSuccess,
     insertFragmentError: insertFragmentError
-    // filtredOffers: filtredOffers,
-    // adData: adData
   };
 })();

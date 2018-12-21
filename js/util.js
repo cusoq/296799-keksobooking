@@ -12,7 +12,7 @@
     '3': ['1', '2', '3'],
     '100': ['0']
   };
-  var DEBOUNCE_INT = 300; // ms
+  var DEBOUNCE_INT = 500; // ms
 
   var priceInput = document.getElementById('price');
   var roomNumberInput = document.getElementById('room_number');
@@ -26,6 +26,7 @@
   var presentCard;
   var successWindow;
   var errorWindow;
+
   // закрывает попап:
   var closePopup = function (popup) {
     if (popup) {
@@ -33,20 +34,20 @@
     }
   };
 
-  // деактивируем элементы форм:
+  // деактивирует элементы форм:
   var setElementsDisabled = function (elements) {
     elements.forEach(function (item) {
       item.disabled = true;
     });
   };
-  // активируем элементы форм::
+  // активирует элементы форм::
   var setElementsEnabled = function (elements) {
     elements.forEach(function (item) {
       item.disabled = false;
     });
   };
 
-  // перемешиваем массив:
+  // перемешивает массив:
   var shuffle = function (currentArray) {
     return currentArray.sort(function () {
       return Math.random() - 0.5;
@@ -69,7 +70,6 @@
   window.util = {
     PRICE: PRICE,
     CAPACITY: CAPACITY,
-    // ESC_KEYCODE: ESC_KEYCODE,
     priceInput: priceInput,
     roomNumberInput: roomNumberInput,
     adForm: adForm,

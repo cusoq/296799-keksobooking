@@ -1,8 +1,10 @@
 'use strict';
 
 (function () {
+  // Количество отображаемых пинов
   var PINS_NUMBER = 5;
 
+  // Ценовые диапазоны для фильтруемых объявлений
   var PriceRange = {
     LOW: {
       MIN: 0,
@@ -25,15 +27,15 @@
   var roomsSelect = filter.querySelector('#housing-rooms');
   var guestsSelect = filter.querySelector('#housing-guests');
   var featuresFieldset = filter.querySelector('#housing-features');
-  var data = [];
+  var data = []; // исходные данные
   var filteredData = [];
 
-  var filtrationItem = function (it, item, key) {
+  var filteredItem = function (it, item, key) {
     return it.value === 'any' ? true : it.value === item[key].toString();
   };
 
   var filtrationByType = function (item) {
-    return filtrationItem(typeSelect, item.offer, 'type');
+    return filteredItem(typeSelect, item.offer, 'type');
   };
 
   var filtrationByPrice = function (item) {
@@ -42,11 +44,11 @@
   };
 
   var filtrationByRooms = function (item) {
-    return filtrationItem(roomsSelect, item.offer, 'rooms');
+    return filteredItem(roomsSelect, item.offer, 'rooms');
   };
 
   var filtrationByGuests = function (item) {
-    return filtrationItem(guestsSelect, item.offer, 'guests');
+    return filteredItem(guestsSelect, item.offer, 'guests');
   };
 
   var filtrationByFeatures = function (item) {
@@ -55,6 +57,8 @@
       return item.offer.features.includes(element.value);
     });
   };
+
+  // Отображение отфильтрованных пинов на карте
   var onFilterChange = window.util.debounce(function () {
     filteredData = data.slice(0);
     filteredData = filteredData.filter(filtrationByType).filter(filtrationByPrice).filter(filtrationByRooms).filter(filtrationByGuests).filter(filtrationByFeatures);
@@ -75,7 +79,11 @@
     filterItems.forEach(function (it) {
       it.disabled = true;
     });
-    filter.removeEventListener('change', onFilterChange);
+    filteredData = data.slice(0);
+    window.map.removePins();
+    window.map.removeMapCard();
+    window.data.cards = filteredData.slice(0, PINS_NUMBER);
+    window.pins.insertFragmentPin();
   };
 
   var activateFilters = function (response) {
@@ -90,9 +98,8 @@
   };
 
   window.filter = {
-    activate: activateFilters,
-    deactivate: deactivateFilters,
     PINS_NUMBER: PINS_NUMBER,
-    filter: filter
+    activate: activateFilters,
+    deactivateFilters: deactivateFilters
   };
 })();
