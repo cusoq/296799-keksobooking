@@ -52,6 +52,7 @@
       window.util.adForm.classList.add('ad-form--disabled');
       window.map.mapPinMain.addEventListener('mousedown', window.map.onMainPinMousedown);
     }, onErrorSave);
+    window.filter.deactivateFilters();
   };
 
   // ОБРАБОТЧИКИ:

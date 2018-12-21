@@ -1,9 +1,11 @@
 'use strict';
 
 (function () {
+
   var PIN_POINTER_HEIGHT = 17; // высота псевдоэлемента-указателя за вычетом толщины рамки пина, взята из разметки
   var START_X = 570; // начальные координаты главного пина
   var START_Y = 375; // начальные координаты главного пина
+
   // пределы перемещения главного пина:
   var DRAG_STOP = {
     X: {
@@ -15,27 +17,31 @@
       MAX: 630
     }
   };
+
   var mapPinMain = document.querySelector('.map__pin--main');
   var resetButton = document.querySelector('.ad-form__reset');
+
   // получение координат главного пина:
   var getMainPinPosition = function () {
-    // var position =
     return {
       x: Math.round((mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2)),
       y: Math.round((mapPinMain.offsetTop + mapPinMain.offsetHeight + PIN_POINTER_HEIGHT))
     };
   };
+
   // заполнение поля адреса главного пина:
   var fillAddress = function () {
     var location = getMainPinPosition();
     document.getElementById('address').value = location.x + ', ' + location.y;
   };
+
   // при нажатии на главную метку:
   var onMainPinMousedown = function () {
     event.preventDefault();
     mapPinMain.addEventListener('mouseup', onMainPinMouseup);
     mapPinMain.removeEventListener('mousedown', onMainPinMousedown);
   };
+
   // что происходит при отпускании главной метки: активируются карты и формы, отображается адрес в соотв. поле формы:
   var onMainPinMouseup = function () {
     event.preventDefault();
@@ -51,6 +57,7 @@
     window.pins.insertFragmentPin();
     mapPinMain.removeEventListener('mouseup', onMainPinMouseup);
   };
+
   // действия при перемещении главного пина:
   var onMainPinDrag = function () {
     event.preventDefault();
@@ -98,18 +105,28 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
+  // Удаляет пины с карты
+  var removePins = function () {
+    var mapPinsItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var m = 0; m < mapPinsItems.length; m++) {
+      mapPinsItems[m].remove();
+    }
+  };
+
+  // Удаляет объявление с карты
+  var removeMapCard = function () {
+    window.util.closePopup(window.util.presentCard);
+  };
+
   // действия при клике на ресет:
   var onClickReset = function () {
     event.preventDefault();
-    window.util.closePopup(window.util.presentCard);
+    window.filter.deactivateFilters();
+    removeMapCard();
     mapPinMain.style.top = START_Y + 'px';
     mapPinMain.style.left = START_X + 'px';
     fillAddress();
-    window.util.mapPins.forEach(function (item) {
-      if (!item.classList.contains('map__pin--main')) {
-        item.remove();
-      }
-    });
+    removePins();
     window.util.map.classList.add('map--faded');
     mapPinMain.addEventListener('mousedown', onMainPinMousedown);
   };
@@ -122,9 +139,10 @@
   resetButton.addEventListener('click', onClickReset);
   // ообработчик нажатия главной метки:
   mapPinMain.addEventListener('mousedown', onMainPinMousedown);
-
   window.map = {
     mapPinMain: mapPinMain,
+    removePins: removePins,
+    removeMapCard: removeMapCard,
     fillAddress: fillAddress,
     onMainPinMousedown: onMainPinMousedown
   };
