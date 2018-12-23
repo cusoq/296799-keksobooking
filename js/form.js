@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var MAX_CAPACITY = '100';
   var typeInput = document.getElementById('type');
   var titleInput = document.getElementById('title');
   var timeInInput = document.getElementById('timein');
@@ -11,16 +12,16 @@
     for (var t = 0; t < window.util.capacityInputOptions.length; t++) {
       window.util.capacityInputOptions[t].disabled = !window.util.CAPACITY[window.util.roomNumberInput.value].includes(window.util.capacityInputOptions[t].value);
     }
-    if (window.util.roomNumberInput.value === '100') {
+    if (window.util.roomNumberInput.value === MAX_CAPACITY) {
       window.util.capacityInput.value = '0';
     } else {
       window.util.capacityInput.value = window.util.roomNumberInput.value;
     }
   };
   // назначение соответствия цены типу жилья по событию 'change':
-  var onChangePriceFlatSync = function (event) {
-    window.util.priceInput.min = window.util.PRICE[event.target.value];
-    window.util.priceInput.placeholder = window.util.PRICE[event.target.value];
+  var onChangePriceFlatSync = function (evt) {
+    window.util.priceInput.min = window.util.PRICE[evt.target.value];
+    window.util.priceInput.placeholder = window.util.PRICE[evt.target.value];
   };
   // назначение соответствия времени въезда-выезда по событию 'change':
   var onChangeCheckInSync = function () {
@@ -35,8 +36,8 @@
     window.pins.insertFragmentError();
   };
   // в штатном режиме
-  var onSubmit = function (event) {
-    event.preventDefault();
+  var onSubmit = function (evt) {
+    evt.preventDefault();
     window.backend.save(new FormData(window.util.adForm), function () {
       window.util.closePopup(window.util.presentCard);
       window.pins.insertFragmentSuccess();

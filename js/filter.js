@@ -61,7 +61,12 @@
   // Отображение отфильтрованных пинов на карте
   var onFilterChange = window.util.debounce(function () {
     filteredData = data.slice(0);
-    filteredData = filteredData.filter(filtrationByType).filter(filtrationByPrice).filter(filtrationByRooms).filter(filtrationByGuests).filter(filtrationByFeatures);
+    var filtrationByAllTypes = [filtrationByType, filtrationByPrice, filtrationByRooms, filtrationByGuests, filtrationByFeatures];
+    filteredData = filteredData.filter(function (ad) {
+      return filtrationByAllTypes.every(function (fn) {
+        return fn(ad);
+      });
+    });
     window.map.removePins();
     window.map.removeMapCard();
     window.data.cards = filteredData.slice(0, PINS_NUMBER);

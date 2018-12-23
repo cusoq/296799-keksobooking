@@ -5,6 +5,8 @@
   var PIN_POINTER_HEIGHT = 17; // высота псевдоэлемента-указателя за вычетом толщины рамки пина, взята из разметки
   var START_X = 570; // начальные координаты главного пина
   var START_Y = 375; // начальные координаты главного пина
+  var DEFAULT_PRICE = 5000;
+  var DEFAULT_CAPACITY = 1;
 
   // пределы перемещения главного пина:
   var DRAG_STOP = {
@@ -36,34 +38,34 @@
   };
 
   // при нажатии на главную метку:
-  var onMainPinMousedown = function () {
-    event.preventDefault();
+  var onMainPinMousedown = function (mainDownEvt) {
+    mainDownEvt.preventDefault();
     mapPinMain.addEventListener('mouseup', onMainPinMouseup);
     mapPinMain.removeEventListener('mousedown', onMainPinMousedown);
   };
 
   // что происходит при отпускании главной метки: активируются карты и формы, отображается адрес в соотв. поле формы:
-  var onMainPinMouseup = function () {
-    event.preventDefault();
+  var onMainPinMouseup = function (mainUpEvt) {
+    mainUpEvt.preventDefault();
     window.util.adForm.classList.remove('ad-form--disabled');
     window.util.setElementsEnabled(window.util.adFormFieldsets);
     window.util.setElementsEnabled(window.util.mapFilterItems);
     fillAddress();
     window.util.capacityInput.value = '1';
     window.util.priceInput.min = window.util.PRICE['flat'];
-    for (var t = 0; t < window.util.capacityInputOptions.length; t++) {
-      window.util.capacityInputOptions[t].disabled = !window.util.CAPACITY[window.util.roomNumberInput.value].includes(window.util.capacityInputOptions[t].value);
-    }
+    window.util.capacityInputOptions.forEach(function (el) {
+      el.disabled = !window.util.CAPACITY[window.util.roomNumberInput.value].includes(el.value);
+    });
     window.pins.insertFragmentPin();
     mapPinMain.removeEventListener('mouseup', onMainPinMouseup);
   };
 
   // действия при перемещении главного пина:
-  var onMainPinDrag = function () {
-    event.preventDefault();
+  var onMainPinDrag = function (dragEvt) {
+    dragEvt.preventDefault();
     var startCoords = {
-      x: event.clientX,
-      y: event.clientY
+      x: dragEvt.clientX,
+      y: dragEvt.clientY
     };
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
@@ -82,15 +84,15 @@
       };
 
       var dragStopBorder = {
-        TOP: DRAG_STOP.Y.MIN - mapPinMain.offsetHeight + PIN_POINTER_HEIGHT,
-        BOTTOM: DRAG_STOP.Y.MAX - mapPinMain.offsetHeight + PIN_POINTER_HEIGHT,
-        LEFT: DRAG_STOP.X.MIN,
-        RIGHT: DRAG_STOP.X.MAX - mapPinMain.offsetWidth
+        top: DRAG_STOP.Y.MIN - mapPinMain.offsetHeight + PIN_POINTER_HEIGHT,
+        bottom: DRAG_STOP.Y.MAX - mapPinMain.offsetHeight + PIN_POINTER_HEIGHT,
+        left: DRAG_STOP.X.MIN,
+        right: DRAG_STOP.X.MAX - mapPinMain.offsetWidth
       };
-      if (currentPinMainPosition.x >= dragStopBorder.LEFT && currentPinMainPosition.x <= dragStopBorder.RIGHT) {
+      if (currentPinMainPosition.x >= dragStopBorder.left && currentPinMainPosition.x <= dragStopBorder.right) {
         mapPinMain.style.left = currentPinMainPosition.x + 'px';
       }
-      if (currentPinMainPosition.y >= dragStopBorder.TOP && currentPinMainPosition.y <= dragStopBorder.BOTTOM) {
+      if (currentPinMainPosition.y >= dragStopBorder.top && currentPinMainPosition.y <= dragStopBorder.bottom) {
         mapPinMain.style.top = currentPinMainPosition.y + 'px';
       }
     };
@@ -107,10 +109,11 @@
 
   // Удаляет пины с карты
   var removePins = function () {
-    var mapPinsItems = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var m = 0; m < mapPinsItems.length; m++) {
-      mapPinsItems[m].remove();
-    }
+    window.util.mapPins.forEach(function (el) {
+      if (!el.classList.contains('map__pin--main')) {
+        el.remove();
+      }
+    });
   };
 
   // Удаляет объявление с карты
@@ -119,14 +122,18 @@
   };
 
   // действия при клике на ресет:
-  var onClickReset = function () {
-    event.preventDefault();
+  var onClickReset = function (resetEvt) {
+    resetEvt.preventDefault();
     window.filter.deactivateFilters();
     removeMapCard();
     mapPinMain.style.top = START_Y + 'px';
     mapPinMain.style.left = START_X + 'px';
+    window.util.adForm.reset();
+    window.util.priceInput.value = DEFAULT_PRICE;
+    window.util.capacityInput.value = DEFAULT_CAPACITY;
     fillAddress();
     removePins();
+    window.util.setElementsDisabled(window.util.adFormFieldsets);
     window.util.map.classList.add('map--faded');
     mapPinMain.addEventListener('mousedown', onMainPinMousedown);
   };

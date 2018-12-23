@@ -175,8 +175,8 @@
   };
 
   // что происходит при нажатии Esc:
-  var onEscClose = function (event) {
-    if (event.keyCode === ESC_KEYCODE) {
+  var onEscClose = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
       window.util.closePopup(window.util.presentCard);
       window.util.closePopup(window.util.successWindow);
       window.util.closePopup(window.util.errorWindow);
