@@ -12,12 +12,9 @@
     for (var t = 0; t < window.util.capacityInputOptions.length; t++) {
       window.util.capacityInputOptions[t].disabled = !window.util.CAPACITY[window.util.roomNumberInput.value].includes(window.util.capacityInputOptions[t].value);
     }
-    if (window.util.roomNumberInput.value === MAX_CAPACITY) {
-      window.util.capacityInput.value = '0';
-    } else {
-      window.util.capacityInput.value = window.util.roomNumberInput.value;
-    }
+    return (window.util.roomNumberInput.value === MAX_CAPACITY) ? (window.util.capacityInput.value = '0') : (window.util.capacityInput.value = window.util.roomNumberInput.value);
   };
+
   // назначение соответствия цены типу жилья по событию 'change':
   var onChangePriceFlatSync = function (evt) {
     window.util.priceInput.min = window.util.PRICE[evt.target.value];
@@ -53,7 +50,7 @@
       window.util.adForm.classList.add('ad-form--disabled');
       window.map.mapPinMain.addEventListener('mousedown', window.map.onMainPinMousedown);
     }, onErrorSave);
-    window.filter.deactivateFilters();
+    window.filter.deactivate();
   };
 
   // ОБРАБОТЧИКИ:

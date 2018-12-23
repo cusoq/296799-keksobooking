@@ -29,7 +29,9 @@
   var featuresFieldset = filter.querySelector('#housing-features');
   var data = []; // исходные данные
   var filteredData = [];
-
+  var getFilteredData = function () {
+    filteredData = data.slice(0);
+  };
   var filteredItem = function (it, item, key) {
     return it.value === 'any' ? true : it.value === item[key].toString();
   };
@@ -60,7 +62,7 @@
 
   // Отображение отфильтрованных пинов на карте
   var onFilterChange = window.util.debounce(function () {
-    filteredData = data.slice(0);
+    getFilteredData();
     var filtrationByAllTypes = [filtrationByType, filtrationByPrice, filtrationByRooms, filtrationByGuests, filtrationByFeatures];
     filteredData = filteredData.filter(function (ad) {
       return filtrationByAllTypes.every(function (fn) {
@@ -84,27 +86,27 @@
     filterItems.forEach(function (it) {
       it.disabled = true;
     });
-    filteredData = data.slice(0);
+    getFilteredData();
     window.map.removePins();
     window.map.removeMapCard();
     window.data.cards = filteredData.slice(0, PINS_NUMBER);
     window.pins.insertFragmentPin();
   };
 
-  var activateFilters = function (response) {
+  var activate = function (response) {
     data = response.slice();
     activateFilter();
     return data.slice(0, PINS_NUMBER);
   };
 
-  var deactivateFilters = function () {
+  var deactivate = function () {
     deactivateFilter();
     filter.reset();
   };
 
   window.filter = {
     PINS_NUMBER: PINS_NUMBER,
-    activate: activateFilters,
-    deactivateFilters: deactivateFilters
+    activate: activate,
+    deactivate: deactivate
   };
 })();

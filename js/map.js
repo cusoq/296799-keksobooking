@@ -124,7 +124,7 @@
   // действия при клике на ресет:
   var onClickReset = function (resetEvt) {
     resetEvt.preventDefault();
-    window.filter.deactivateFilters();
+    window.filter.deactivate();
     removeMapCard();
     mapPinMain.style.top = START_Y + 'px';
     mapPinMain.style.left = START_X + 'px';
