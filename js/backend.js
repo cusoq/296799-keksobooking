@@ -1,6 +1,6 @@
 'use strict';
 
-window.backend = (function () {
+(function () {
   var URL_DATA = 'https://js.dump.academy/keksobooking/data';
   var URL_ONLOAD = 'https://js.dump.academy/keksobooking';
 
@@ -44,7 +44,7 @@ window.backend = (function () {
     xhr.send(data);
   };
 
-  return {
+  window.backend = {
     load: load,
     save: save
   };
