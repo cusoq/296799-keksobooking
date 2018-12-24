@@ -5,7 +5,6 @@
   var PIN_POINTER_HEIGHT = 17; // высота псевдоэлемента-указателя за вычетом толщины рамки пина, взята из разметки
   var START_X = 570; // начальные координаты главного пина
   var START_Y = 375; // начальные координаты главного пина
-  var DEFAULT_PRICE = 5000;
   var DEFAULT_CAPACITY = 1;
 
   // пределы перемещения главного пина:
@@ -37,9 +36,25 @@
     document.getElementById('address').value = location.x + ', ' + location.y;
   };
 
-  // при нажатии на главную метку:
+  // что происходит при успешной загрузке данных с сервера
+  var onDataLoad = function (response) {
+    window.data.cards = response.slice(0, window.filter.PINS_NUMBER);
+    window.filter.activate(window.data.cards);
+  };
+
+  // вывод сообщения об ошибке в исключительном случае
+  var onError = function (errorMessage) {
+    window.pins.insertFragmentError();
+    document.querySelector('.error__message').textContent = errorMessage;
+  };
+
+  // что происходит при нажатии на главную метку:
   var onMainPinMousedown = function (mainDownEvt) {
     mainDownEvt.preventDefault();
+    window.util.adForm.classList.remove('ad-form--disabled');
+    window.util.setElementsEnabled(window.util.adFormFieldsets);
+    window.util.setElementsEnabled(window.util.mapFilterItems);
+    window.backend.load(onDataLoad, onError);
     mapPinMain.addEventListener('mouseup', onMainPinMouseup);
     mapPinMain.removeEventListener('mousedown', onMainPinMousedown);
   };
@@ -47,16 +62,14 @@
   // что происходит при отпускании главной метки: активируются карты и формы, отображается адрес в соотв. поле формы:
   var onMainPinMouseup = function (mainUpEvt) {
     mainUpEvt.preventDefault();
-    window.util.adForm.classList.remove('ad-form--disabled');
-    window.util.setElementsEnabled(window.util.adFormFieldsets);
-    window.util.setElementsEnabled(window.util.mapFilterItems);
+    window.pins.insertFragmentPin();
     fillAddress();
-    window.util.capacityInput.value = '1';
+    window.util.capacityInput.value = DEFAULT_CAPACITY;
     window.util.priceInput.min = window.util.PRICE['flat'];
+    window.util.priceInput.placeholder = window.util.PRICE['flat'];
     window.util.capacityInputOptions.forEach(function (el) {
       el.disabled = !window.util.CAPACITY[window.util.roomNumberInput.value].includes(el.value);
     });
-    window.pins.insertFragmentPin();
     mapPinMain.removeEventListener('mouseup', onMainPinMouseup);
   };
 
@@ -129,7 +142,7 @@
     mapPinMain.style.top = START_Y + 'px';
     mapPinMain.style.left = START_X + 'px';
     window.util.adForm.reset();
-    window.util.priceInput.value = DEFAULT_PRICE;
+    window.util.priceInput.placeholder = window.util.PRICE['flat'];
     window.util.capacityInput.value = DEFAULT_CAPACITY;
     fillAddress();
     removePins();

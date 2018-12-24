@@ -130,16 +130,6 @@
     return error.cloneNode(true);
   };
 
-  var onDataLoad = function (response) {
-    window.data.cards = response.slice(0, window.filter.PINS_NUMBER);
-    window.filter.activate(window.data.cards);
-  };
-
-  var onError = function (errorMessage) {
-    window.pins.insertFragmentError();
-    document.querySelector('.error__message').textContent = errorMessage;
-  };
-
   // создание фрагмента для добавления пина в разметку:
   var getPinFragment = function (array, createdomfunction) {
     var fragment = document.createDocumentFragment();
@@ -154,7 +144,6 @@
     mapPinContainer.appendChild(getPinFragment(window.data.cards, renderPins));
     window.util.mapPins = document.querySelectorAll('.map__pin');
   };
-  window.backend.load(onDataLoad, onError);
 
   // добавляем карточку в разметку:
   var insertFragmentCard = function (currentCard) {
