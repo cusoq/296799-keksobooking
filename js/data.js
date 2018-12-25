@@ -28,9 +28,10 @@
 
   // получаем случайное описание жилища:
   var getTitle = function () {
-    window.util.shuffle(FLAT_DESCRIPTIONS);
-    for (var i = 0; i < Math.min(FLAT_DESCRIPTIONS.length, CARDS_QUANTITY); i++) {
-      var description = FLAT_DESCRIPTIONS[i];
+    var flatDescriptions = FLAT_DESCRIPTIONS;
+    window.util.shuffle(flatDescriptions);
+    for (var i = 0; i < 1; i++) {
+      var description = flatDescriptions[i];
     }
     return description;
   };
@@ -87,15 +88,16 @@
 
   // генерируем случайное количество фич:
   var getFeatures = function () {
-    var randomFeatures = window.util.shuffle(FEATURES);
-    return randomFeatures.slice(0, calculateRandomInt(0, FEATURES.length));
+    var features = FEATURES;
+    var randomFeatures = window.util.shuffle(features);
+    return randomFeatures.slice(0, calculateRandomInt(0, features.length));
   };
 
   // получаем перемешанный массив фото:
   var getPhotos = function () {
-    return window.util.shuffle(PHOTOS);
+    var photos = PHOTOS;
+    return window.util.shuffle(photos);
   };
-
   // генерируем случайные координаты:
   var getLocationX = function () {
     return calculateRandomInt(MIN_LEFT, MAX_LEFT);

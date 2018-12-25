@@ -2,6 +2,7 @@
 
 (function () {
   var MAX_CAPACITY = '100';
+  var MIN_CAPACITY = '0';
   var typeInput = document.getElementById('type');
   var titleInput = document.getElementById('title');
   var timeInInput = document.getElementById('timein');
@@ -12,7 +13,7 @@
     for (var t = 0; t < window.util.capacityInputOptions.length; t++) {
       window.util.capacityInputOptions[t].disabled = !window.util.CAPACITY[window.util.roomNumberInput.value].includes(window.util.capacityInputOptions[t].value);
     }
-    return (window.util.roomNumberInput.value === MAX_CAPACITY) ? (window.util.capacityInput.value = '0') : (window.util.capacityInput.value = window.util.roomNumberInput.value);
+    return (window.util.roomNumberInput.value === MAX_CAPACITY) ? (window.util.capacityInput.value = MIN_CAPACITY) : (window.util.capacityInput.value = window.util.roomNumberInput.value);
   };
 
   // назначение соответствия цены типу жилья по событию 'change':
