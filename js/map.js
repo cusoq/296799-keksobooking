@@ -52,8 +52,8 @@
   var onMainPinMousedown = function (mainDownEvt) {
     mainDownEvt.preventDefault();
     window.util.adForm.classList.remove('ad-form--disabled');
-    window.util.setElementsEnabled(window.util.adFormFieldsets);
     window.util.setElementsEnabled(window.util.mapFilterItems);
+    window.util.setElementsEnabled(window.util.adFormFieldsets);
     window.backend.load(onDataLoad, onError);
     mapPinMain.addEventListener('mouseup', onMainPinMouseup);
     mapPinMain.removeEventListener('mousedown', onMainPinMousedown);
@@ -109,6 +109,7 @@
         mapPinMain.style.top = currentPinMainPosition.y + 'px';
       }
     };
+
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       fillAddress();
